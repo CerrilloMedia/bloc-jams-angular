@@ -25,11 +25,15 @@
                     var value = scope.value;
                     var max = scope.max;
                     var percent = value / max * 100;
-                    return percent + "%";
+                    return percent +"%";
                 };
                 
                 scope.fillStyle = function() {
-                    return {width: percentString()};
+                    return { width: percentString() };
+                };
+                
+                scope.thumbStyle = function() {
+                    return { left: percentString() };
                 };
                 
                 // Click Handler
@@ -40,9 +44,9 @@
                 
                 // attach mousemove to ng-mousedown
                 scope.trackThumb = function() {
-                    $document.bind('mousemove', function(event) {
+                    $document.bind('mousemove.thumb', function(event) {
                         var percent = calculatePercent(seekBar, event);
-                        scope.$apply(function() {
+                        scope.$apply(function() { // must wrap function in apply for Angular to invoke the changes immediately
                             scope.value = percent * scope.max;
                         });
                     });
