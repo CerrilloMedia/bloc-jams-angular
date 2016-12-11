@@ -14,12 +14,22 @@
             templateUrl: '/templates/directives/seek_bar.html',
             replace: true,
             restrict: 'E',
-            scope: { },
+            scope: {
+                onChange: '&'
+            },
             link: function(scope, element, attributes) {
                 scope.value = 0;
                 scope.max = 100;
                 
-                var seekBar = $(element); // adding jQuery 
+                var seekBar = $(element); // adding jQuery
+                
+                attributes.$observe('value', function(newValue) {
+                    scope.value = newValue;
+                });
+                
+                attributes.$observe('max', function(newValue) {
+                    scope.max = newValue;
+                })
                 
                 var percentString = function() {
                     var value = scope.value;
@@ -40,6 +50,7 @@
                 scope.onClickSeekBar = function(event) {
                     var percent = calculatePercent(seekBar, event);
                     scope.value = percent * scope.max;
+                    notifyOnChange(scope.value);
                 };
                 
                 // attach mousemove to ng-mousedown
@@ -48,6 +59,7 @@
                         var percent = calculatePercent(seekBar, event);
                         scope.$apply(function() { // must wrap function in apply for Angular to invoke the changes immediately
                             scope.value = percent * scope.max;
+                            notifyOnChange(scope.value);
                         });
                     });
                     
@@ -56,6 +68,13 @@
                         $document.unbind('mouseup.thumb');
                     });
                 };
+                
+                // update the value of (value) attribute in the DOM for seek-bar directive
+                var notifyOnChange = function(newValue) {
+                    if (typeof scope.onChange === 'function') {
+                        scope.onChange({value: newValue}); // pass newValue through onChange attribute into setCurrentTime function
+                    }
+                }
             }
         };
     }
