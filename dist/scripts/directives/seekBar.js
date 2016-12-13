@@ -62,7 +62,6 @@
                             notifyOnChange(scope.value);
                         });
                     });
-                    
                     $document.bind('mouseup.thumb', function() {
                         $document.unbind('mousemove.thumb');
                         $document.unbind('mouseup.thumb');
@@ -74,7 +73,7 @@
                     if (typeof scope.onChange === 'function') {
                         scope.onChange({value: newValue}); // pass newValue through onChange attribute into setCurrentTime function
                     }
-                }
+                };
             }
         };
     }
