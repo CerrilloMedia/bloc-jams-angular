@@ -14,7 +14,7 @@
         * @desc Buzz object audio file
         * @type {Object}
         */
-        var currentBuzzObject = null;        
+        var currentBuzzObject = null;
         
         /*******************
         * @function setSong
@@ -40,8 +40,23 @@
             
             currentBuzzObject.bind('volumechange', function() {
                 $rootScope.$apply(function() {
-                    if (!SongPlayer.volume) {
+                    if (SongPlayer.volume === null ) {
                         SongPlayer.volume = currentBuzzObject.getVolume();
+                    }
+                });
+            });
+            
+            currentBuzzObject.bind('ended', function() {
+                $rootScope.$apply(function() {
+                    var totalSongs = currentAlbum.songs.length - 1;
+                    if ( totalSongs != getSongIndex(song) ) {
+                        SongPlayer.next();
+                    } else {
+                        albumRepeat = confirm("Album has ended, replay?");
+                        if ( albumRepeat ) {
+                            song = currentAlbum.songs[0];
+                            SongPlayer.play(song);
+                        }
                     }
                 });
             });
@@ -88,7 +103,7 @@
         
         /*******************
         * @function getSongIndex
-        * @desc objtain song index of current playing song
+        * @desc obtain song index of current playing song
         * @param {Object} song
         */
         var getSongIndex = function(song) {
@@ -112,6 +127,12 @@
         * @type {Object}
         */
         SongPlayer.volume = null;
+        
+        /*******************
+        * @desc object storing current max volume level
+        * @type {Object}
+        */
+        SongPlayer.maxVolume = 100;
         
         
         /*******************
