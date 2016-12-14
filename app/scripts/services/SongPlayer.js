@@ -2,6 +2,10 @@
     function SongPlayer($rootScope, Fixtures) {
         var SongPlayer = {};
         
+        /*******************
+        * @desc placeholder value for album repeat
+        * @type {Boolean}
+        */        
         var albumRepeat = null; // future functionality
         
         /*******************
@@ -18,7 +22,7 @@
         
         /*******************
         * @function setSong
-        * @desc Stops currently playing song and Loads new audio file as currentBuzzObject
+        * @desc Stops currently playing song (if any) and Loads new audio file as currentBuzzObject
         * @param {Object} song
         */
         var setSong = function(song) {
@@ -46,6 +50,7 @@
                 });
             });
             
+            // bind SongPlayer.next event to song ending, prompt user for album replay when last song in album is finishe
             currentBuzzObject.bind('ended', function() {
                 $rootScope.$apply(function() {
                     var totalSongs = currentAlbum.songs.length - 1;
@@ -54,8 +59,7 @@
                     } else {
                         albumRepeat = confirm("Album has ended, replay?");
                         if ( albumRepeat ) {
-                            song = currentAlbum.songs[0];
-                            SongPlayer.play(song);
+                            playFromBegining();
                         }
                     }
                 });
@@ -66,7 +70,7 @@
         
         /*******************
         * @function playSong
-        * @desc 
+        * @desc trigger buzz library to play current song
         * @param {Object} song
         */
         var playSong = function(song) {
@@ -85,18 +89,31 @@
         }
         
         /*******************
+        * @function playFromBegining
+        * @desc play album from first track
+        */
+        var playFromBegining = function() {
+            song = currentAlbum.songs[0];
+            setSong(song);
+            playSong(song);
+        };
+        
+        /*******************
         * @method SongPlayer.play
         * @desc test play status of song object and assign proper private function
         * @param {Object} song
         */
         SongPlayer.play = function(song) {
             song = song || SongPlayer.currentSong;
+            // if current song object is not the song being triggered to play
             if (SongPlayer.currentSong !== song) {
                 setSong(song);
                 playSong(song);
             } else if (SongPlayer.currentSong === song) {   // if current song is the same as clicked on
-                if ( currentBuzzObject.isPaused() ) {       // if song is already paused
+                if ( currentBuzzObject && currentBuzzObject.isPaused() ) {       // if song is already paused
                     playSong(song);                         // play the song 
+                } else {
+                    playFromBegining();
                 }
             }
         };
@@ -133,7 +150,6 @@
         * @type {Object}
         */
         SongPlayer.maxVolume = 100;
-        
         
         /*******************
         * @method SongPlayer.pause
