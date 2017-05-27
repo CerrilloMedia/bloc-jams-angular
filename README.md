@@ -1,7 +1,8 @@
 ## Angular-JS music player project
 
-The purpose of this project was to recreate my previous [NodeJS music player](https://github.com/cerrillomedia/bloc-jams) project utilizing AngularJS. I cloned the base project template from 
+The purpose of this project was to recreate my previous [NodeJS music player](https://github.com/cerrillomedia/bloc-jams) project utilizing AngularJS.
 
+[BlocJams](http://cmds-angular-bloc-jams.netlify.com/) hosted on Netlify
 
 
 ##### This project Utilizes Grunt, NPM & AngularJS
