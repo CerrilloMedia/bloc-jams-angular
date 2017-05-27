@@ -17,11 +17,7 @@
                 output += '0';
             }
             
-            output += remainingSeconds;            
-            
-            /* enable this to utilize the buzz library toTimer method mm:ss timecode
-            return buzz.toTimer(seconds);
-            */
+            output += remainingSeconds;
             
             return output;
         };
