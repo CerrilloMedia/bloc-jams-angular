@@ -1,7 +1,5 @@
 ### BlocJams - a journey into the AngularJS framework
 
-Utilizing the following: NodeJS/NPM, AngularJS, JavaScript.
-
 | Goals as a developer |
 | --- |
 | Add AngularJS to an existing project |
@@ -11,6 +9,6 @@ Utilizing the following: NodeJS/NPM, AngularJS, JavaScript.
 | Write a directive which controls song and volume sliders |
 | Include real-time time-code filters for displaying song length and current position |
 
-This assignment/projectrequired knowledge, setup and use of NodeJS, Grunt and Brackets.io.
+This assignment/project required knowledge, setup and use of NodeJS, Grunt and Brackets.io.
 
 Final but extremely rough [sample-app](http://cmds-angular-bloc-jams.netlify.com) hosted on Netlify.
